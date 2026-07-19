@@ -19,7 +19,7 @@ const CONFIG = {
   // siempre). 'recoleccion': modo del taller — el backend solo genera
   // las fichas de CONFIG.fichasEnVivo; las demás se pintan como
   // "en elaboración" en el front, sin esperarlas del backend.
-  modo: 'completo', // 'completo' | 'recoleccion'
+  modo: 'recoleccion', // 'completo' | 'recoleccion'
   fichasEnVivo: ['ficha1', 'ficha2'], // ids que SÍ llegan en modo 'recoleccion'; se ignora en 'completo'
   webhooks: {
     chat: 'https://fabianh.app.n8n.cloud/webhook/augurio/chat',
