@@ -1,0 +1,530 @@
+/* ============================================================
+   Augurio 2.0 — tema oscuro · Helvena · crema + azul
+   ============================================================ */
+@font-face {
+  font-family: 'Helvena';
+  src: url('fonts/Helvena-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Helvena';
+  src: url('fonts/Helvena-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Helvena';
+  src: url('fonts/Helvena-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Helvena';
+  src: url('fonts/Helvena-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --negro:   #000000;
+  --crema:   #F6ECC8;
+  --azul:    #1F8EFF;
+  --tinta:   #14140F;              /* texto sobre crema */
+  --tinta-suave: rgba(20, 20, 15, .55);
+  --linea-crema: rgba(20, 20, 15, .22); /* líneas sobre crema */
+  --linea-negro: rgba(246, 236, 200, .22); /* líneas sobre negro */
+
+  --radio: 26px;
+  --pill-w: 32px;
+  --pill-h: 51px;
+  /* Ancho del chat en móvil = piso mínimo en escritorio: nunca menos que esto */
+  --ancho-chat: 300px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--negro);
+  color: var(--crema);
+  font-family: 'Helvena', -apple-system, 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   Scrollbars mínimos, a tono con la gráfica
+   ============================================================ */
+/* Página (fondo negro): pulgar crema tenue */
+html { scrollbar-width: thin; scrollbar-color: rgba(246, 236, 200, .22) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(246, 236, 200, .22);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(246, 236, 200, .4); }
+
+/* Dentro de las tarjetas crema: pulgar oscuro y más fino */
+.chat-mensajes,
+.chat-input,
+.tarjeta-ficha { scrollbar-width: thin; scrollbar-color: rgba(20, 20, 15, .22) transparent; }
+.chat-mensajes::-webkit-scrollbar,
+.chat-input::-webkit-scrollbar,
+.tarjeta-ficha::-webkit-scrollbar { width: 6px; height: 6px; }
+.chat-mensajes::-webkit-scrollbar-thumb,
+.chat-input::-webkit-scrollbar-thumb,
+.tarjeta-ficha::-webkit-scrollbar-thumb {
+  background: rgba(20, 20, 15, .22);
+  border-radius: 6px;
+}
+.chat-mensajes::-webkit-scrollbar-thumb:hover,
+.chat-input::-webkit-scrollbar-thumb:hover,
+.tarjeta-ficha::-webkit-scrollbar-thumb:hover { background: rgba(20, 20, 15, .4); }
+
+/* ============================================================
+   Barra superior: logo + menú
+   ============================================================ */
+.marca {
+  position: absolute;
+  top: 44px;
+  left: 44px;
+  width: 118px;
+  z-index: 10;
+}
+
+.marca-logo {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.menu {
+  position: absolute;
+  top: 48px;
+  right: 48px;
+  width: 34px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.menu span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background: var(--crema);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Tablero: dos columnas + divisor
+   ============================================================ */
+.tablero {
+  display: grid;
+  /* 30% chat, 70% fichas — pero el chat nunca baja del ancho de móvil */
+  grid-template-columns: minmax(var(--ancho-chat), 3fr) 4px minmax(0, 7fr);
+  gap: 0 48px;
+  max-width: 1300px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 130px 160px 130px 124px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+
+/* Divisor vertical con punto superior */
+.divisor {
+  position: relative;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--linea-negro);
+  margin-top: 52px;
+}
+
+.divisor-punto {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--crema);
+}
+
+/* ============================================================
+   Bloques: pill azul + etiqueta + tarjeta
+   ============================================================ */
+.bloque { position: relative; }
+
+.pill {
+  position: absolute;
+  width: var(--pill-w);
+  height: var(--pill-h);
+  border-radius: calc(var(--pill-w) / 2);
+  background: var(--azul);
+  z-index: 0;
+}
+
+/* Las pills asoman más de la mitad por fuera de las tarjetas */
+.pill-top    { top: -28px; left: 38px; }
+.pill-derecha{ left: auto; right: 48px; }
+.pill-bottom { top: auto; bottom: -28px; left: 38px; }
+
+/* Etiquetas: crema, sobre el fondo negro */
+.bloque-label {
+  position: absolute;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: var(--crema);
+}
+
+.bloque-label-top    { top: -16px; left: 84px; }
+.bloque-label-bottom { bottom: -16px; left: 84px; }
+
+/* Etiquetas del chat: 1px más pequeñas y un par de px más lejos de la caja */
+.bloque-chat .bloque-label { font-size: 11px; }
+.bloque-chat .bloque-label-top    { top: -18px; }
+.bloque-chat .bloque-label-bottom { bottom: -18px; }
+
+/* La etiqueta de las fichas va alineada al borde izquierdo de la tarjeta */
+.bloque-ficha .bloque-label-top { left: 20px; }
+
+button.pill {
+  border: none;
+  cursor: pointer;
+  transition: transform .12s ease;
+}
+
+button.pill:hover  { transform: scale(1.05); }
+button.pill:active { transform: scale(.95); }
+
+.tarjeta {
+  position: relative;
+  background: var(--crema);
+  color: var(--tinta);
+  border-radius: var(--radio);
+  /* Sin z-index propio: un contexto de apilamiento aquí aplana el 3D
+     del flip en Safari y rompe backface-visibility. */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ============================================================
+   Columna chat
+   ============================================================ */
+
+/* El chat queda fijo mientras las fichas de la derecha hacen scroll */
+.col-chat {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  height: calc(100vh - 230px);
+}
+
+.bloque-chat { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* Flip de las tarjetas: horizontal en el chat, vertical en las fichas */
+.flip-chat,
+.flip-ficha {
+  position: relative;
+  perspective: 1200px;
+}
+
+/* z-index: 1 para que la tarjeta quede por encima de las pills y estas
+   asomen solo con el pedazo que sobresale (mitad oculta detrás). */
+.flip-chat  { flex: 1; min-height: 0; z-index: 1; }
+.flip-ficha { flex: 1; min-height: 340px; }
+
+.flip-inner {
+  position: absolute;
+  inset: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  transition: transform .6s ease;
+}
+
+.flip-cara {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-chat .flip-dorso { transform: rotateY(180deg); }
+.flip-chat.volteado .flip-inner { transform: rotateY(180deg); }
+
+.flip-ficha .flip-dorso { transform: rotateX(180deg); }
+.flip-ficha.volteado .flip-inner { transform: rotateX(180deg); }
+
+/* La tarjeta del chat contiene la conversación (scroll) y la entrada,
+   separadas por un divisor, como en el diseño de referencia. */
+.tarjeta-chat {
+  height: 100%;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-mensajes {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 34px 0 20px;
+  overflow-y: auto;
+}
+
+.chat-entrada {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 20px 0 26px;
+  border-top: 1px solid var(--linea-crema);
+}
+
+/* Dorso de las tarjetas: texto explicativo en cursiva */
+.tarjeta.tarjeta-acerca {
+  padding: 34px 30px;
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--tinta);
+}
+
+.tarjeta-acerca p + p { margin-top: 12px; }
+.tarjeta-acerca strong { font-weight: 700; }
+
+.msg {
+  max-width: 82%;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  white-space: pre-wrap;
+}
+
+.msg-bot     { align-self: flex-start; text-align: left; }
+.msg-usuario { align-self: flex-end;   text-align: justify; text-align-last: right; }
+
+.chat-input {
+  flex: 1;
+  /* min-width: 0 deja que el textarea encoja dentro del flex;
+     sin esto, Firefox conserva su ancho intrínseco y empuja el botón. */
+  min-width: 0;
+  background: transparent;
+  border: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--tinta);
+  min-height: 48px;
+}
+
+.chat-input::placeholder { color: var(--tinta-suave); }
+.chat-input:focus { outline: none; }
+
+.btn-enviar {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--azul);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .12s ease;
+}
+
+.btn-enviar svg { width: 20px; height: 20px; display: block; }
+.btn-enviar:hover  { transform: scale(1.06); }
+.btn-enviar:active { transform: scale(.94); }
+
+/* ============================================================
+   Columna fichas
+   ============================================================ */
+.col-fichas { padding-top: 0; }
+
+.bloque-ficha { flex: 1; display: flex; flex-direction: column; }
+
+/* Estructura de la ficha: encabezado, título, cuerpo y año */
+.tarjeta-ficha {
+  height: 100%;
+  padding: 30px 32px 26px;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-y: auto;
+}
+
+.ficha-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ficha-subtitulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.ficha-circulo {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid var(--tinta);
+}
+
+.ficha-titulo {
+  margin-top: 18px;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  color: var(--tinta);
+}
+
+.ficha-cuerpo {
+  margin-top: 22px;
+  flex: 1;
+}
+
+.ficha-anio {
+  margin-top: 22px;
+  align-self: flex-end;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.placeholder-ficha {
+  color: var(--tinta-suave);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+/* Ficha vacía / dormida: fondo negro (opaco) para que oculte la mitad de la
+   pill como las llenas, texto en crema. Al generar la cognición pasa a crema. */
+.tarjeta.tarjeta-ficha--vacia {
+  background: var(--negro);
+  color: var(--crema);
+}
+.tarjeta-ficha--vacia .ficha-subtitulo,
+.tarjeta-ficha--vacia .ficha-titulo,
+.tarjeta-ficha--vacia .ficha-anio { color: var(--crema); }
+.tarjeta-ficha--vacia .ficha-circulo { border-color: var(--crema); }
+.tarjeta-ficha--vacia .placeholder-ficha { color: rgba(246, 236, 200, .6); }
+
+/* Contenido real / simulado de las fichas */
+.ficha-contenido p { max-width: 64ch; }
+.ficha-contenido p + p { margin-top: 14px; }
+
+.ficha-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ficha-tabla th,
+.ficha-tabla td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--linea-crema);
+}
+
+.ficha-tabla th { font-weight: 700; }
+
+.ficha-grafo,
+.ficha-gantt,
+.ficha-calor {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  display: block;
+}
+
+/* Animación de procesando: tres puntos azules */
+.ficha-procesando {
+  height: 100%;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ficha-procesando span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--azul);
+  animation: pulso-procesando 1s ease-in-out infinite;
+}
+
+.ficha-procesando span:nth-child(2) { animation-delay: .18s; }
+.ficha-procesando span:nth-child(3) { animation-delay: .36s; }
+
+@keyframes pulso-procesando {
+  0%, 100% { transform: scale(.6); opacity: .35; }
+  50%      { transform: scale(1);  opacity: 1; }
+}
+
+/* Indicador de "escribiendo" del bot */
+.msg-escribiendo { opacity: .5; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1100px) {
+  .tablero {
+    grid-template-columns: 1fr;
+    gap: 96px 0;
+    padding: 150px 32px 64px;
+  }
+  .divisor { display: none; }
+  .marca { top: 32px; left: 32px; width: 104px; }
+  .menu  { top: 34px; right: 32px; }
+  .col-fichas { padding-top: 40px; }
+
+  /* En una columna el chat deja de ser sticky: todo hace un solo scroll */
+  .col-chat {
+    position: static;
+    height: auto;
+  }
+
+  .flip-chat { min-height: 420px; }
+
+  /* Apiladas, las columnas no superan su ancho de la versión completa */
+  .col-chat,
+  .col-fichas {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .col-chat   { max-width: var(--ancho-chat); }
+  .col-fichas { max-width: 640px; }
+}

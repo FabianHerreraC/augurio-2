@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Augurio 2.0 — pensar todos, todo.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Marca -->
+  <a class="marca" href="#" aria-label="Augurio">
+    <img src="assets/AuLogo.svg" alt="augurio." class="marca-logo">
+  </a>
+
+  <!-- Menú -->
+  <button class="menu" type="button" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+
+  <main class="tablero">
+
+    <!-- Columna izquierda: chat -->
+    <section class="col col-chat">
+
+      <div class="bloque bloque-chat">
+        <button type="button" class="pill pill-top" id="btnAcercaChat" aria-label="De que se trata este chat?"></button>
+        <span class="bloque-label bloque-label-top">De que se trata este chat?</span>
+
+        <!-- Flip horizontal: conversación al frente, explicación del bot al dorso -->
+        <div class="flip-chat" id="flipChat">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-chat">
+                <div class="chat-mensajes" id="chatVentana" aria-live="polite">
+                  <!-- Los mensajes se insertan aquí -->
+                </div>
+                <form class="chat-entrada" id="chatForm">
+                  <textarea
+                    id="chatInput"
+                    class="chat-input"
+                    placeholder="Escribe aquí_"
+                    rows="2"
+                    autocomplete="off"></textarea>
+                  <button type="submit" class="btn-enviar" aria-label="Enviar mensaje">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="#F6ECC8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-chat tarjeta-acerca">
+                <p><strong>Este chat es la puerta de entrada a Augurio.</strong></p>
+                <p>El bot con el que conversas recoge lo que escribes y lo pone a dialogar
+                con las voces de las demás personas del ejercicio. No responde por ti ni
+                te evalúa: junta las respuestas del grupo, encuentra los patrones que nadie
+                escribió por separado y devuelve ese material en las fichas de la derecha.</p>
+                <p>Pensar todos, todo: lo que aparece al final no lo produjo ninguna persona
+                sola, y tampoco la máquina sola.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="pill pill-bottom" id="btnCognicion" aria-label="Terminar la conversacion"></button>
+        <span class="bloque-label bloque-label-bottom">Terminar la conversacion</span>
+      </div>
+
+    </section>
+
+    <!-- Divisor vertical -->
+    <div class="divisor" aria-hidden="true"><span class="divisor-punto"></span></div>
+
+    <!-- Columna derecha: fichas -->
+    <section class="col col-fichas">
+
+      <div class="bloque bloque-ficha">
+        <span class="bloque-label bloque-label-top">Ficha 1</span>
+        <button type="button" class="pill pill-top pill-derecha btn-flip-ficha" aria-label="Acerca de la Ficha 1"></button>
+        <div class="flip-ficha">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-ficha tarjeta-ficha--vacia">
+                <div class="ficha-head">
+                  <span class="ficha-subtitulo">Objeto Consultivo – Primero</span>
+                  <span class="ficha-circulo" aria-hidden="true"></span>
+                </div>
+                <h2 class="ficha-titulo">Resumen Consultivo.</h2>
+                <div class="ficha-cuerpo" id="ficha1">
+                  <p class="placeholder-ficha">Aún sin material. Termina la conversación para generarlo.</p>
+                </div>
+                <span class="ficha-anio">2026</span>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-ficha tarjeta-acerca">
+                <p>Esta ficha recibe la conclusión colectiva: la síntesis de lo que emerge cuando las respuestas del grupo se leen juntas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque bloque-ficha">
+        <span class="bloque-label bloque-label-top">Ficha 2</span>
+        <button type="button" class="pill pill-top pill-derecha btn-flip-ficha" aria-label="Acerca de la Ficha 2"></button>
+        <div class="flip-ficha">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-ficha tarjeta-ficha--vacia">
+                <div class="ficha-head">
+                  <span class="ficha-subtitulo">Objeto Consultivo – Segundo</span>
+                  <span class="ficha-circulo" aria-hidden="true"></span>
+                </div>
+                <h2 class="ficha-titulo">Convergencias.</h2>
+                <div class="ficha-cuerpo" id="ficha2">
+                  <p class="placeholder-ficha">Aún sin material. Termina la conversación para generarlo.</p>
+                </div>
+                <span class="ficha-anio">2026</span>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-ficha tarjeta-acerca">
+                <p>Esta ficha muestra la tabla de convergencias: quién sostiene qué idea, con qué fuerza y con qué presupuesto asociado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque bloque-ficha">
+        <span class="bloque-label bloque-label-top">Ficha 3</span>
+        <button type="button" class="pill pill-top pill-derecha btn-flip-ficha" aria-label="Acerca de la Ficha 3"></button>
+        <div class="flip-ficha">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-ficha tarjeta-ficha--vacia">
+                <div class="ficha-head">
+                  <span class="ficha-subtitulo">Objeto Consultivo – Tercero</span>
+                  <span class="ficha-circulo" aria-hidden="true"></span>
+                </div>
+                <h2 class="ficha-titulo">Agrupamiento.</h2>
+                <div class="ficha-cuerpo" id="ficha3">
+                  <p class="placeholder-ficha">Aún sin material. Termina la conversación para generarlo.</p>
+                </div>
+                <span class="ficha-anio">2026</span>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-ficha tarjeta-acerca">
+                <p>Esta ficha dibuja el grafo de agrupamiento: las constelaciones de voces, las ideas que se repiten y las que nadie nombró.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque bloque-ficha">
+        <span class="bloque-label bloque-label-top">Ficha 4</span>
+        <button type="button" class="pill pill-top pill-derecha btn-flip-ficha" aria-label="Acerca de la Ficha 4"></button>
+        <div class="flip-ficha">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-ficha tarjeta-ficha--vacia">
+                <div class="ficha-head">
+                  <span class="ficha-subtitulo">Objeto Consultivo – Cuarto</span>
+                  <span class="ficha-circulo" aria-hidden="true"></span>
+                </div>
+                <h2 class="ficha-titulo">Mapa de palabras.</h2>
+                <div class="ficha-cuerpo" id="ficha4">
+                  <p class="placeholder-ficha">Aún sin material. Termina la conversación para generarlo.</p>
+                </div>
+                <span class="ficha-anio">2026</span>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-ficha tarjeta-acerca">
+                <p>Esta ficha es el mapa de calor de las palabras del grupo: la densidad de lo más nombrado, leída como un relieve.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque bloque-ficha">
+        <span class="bloque-label bloque-label-top">Ficha 5</span>
+        <button type="button" class="pill pill-top pill-derecha btn-flip-ficha" aria-label="Acerca de la Ficha 5"></button>
+        <div class="flip-ficha">
+          <div class="flip-inner">
+            <div class="flip-cara flip-frente">
+              <div class="tarjeta tarjeta-ficha tarjeta-ficha--vacia">
+                <div class="ficha-head">
+                  <span class="ficha-subtitulo">Objeto Consultivo – Quinto</span>
+                  <span class="ficha-circulo" aria-hidden="true"></span>
+                </div>
+                <h2 class="ficha-titulo">Cronograma.</h2>
+                <div class="ficha-cuerpo" id="ficha5">
+                  <p class="placeholder-ficha">Aún sin material. Termina la conversación para generarlo.</p>
+                </div>
+                <span class="ficha-anio">2026</span>
+              </div>
+            </div>
+            <div class="flip-cara flip-dorso">
+              <div class="tarjeta tarjeta-ficha tarjeta-acerca">
+                <p>Esta ficha traza el cronograma del proyecto elegido: sus fases, su fase activa y la entrega final.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
