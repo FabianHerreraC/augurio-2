@@ -288,6 +288,13 @@ button.pill:active { transform: scale(.95); }
   gap: 22px;
   padding: 34px 0 20px;
   overflow-y: auto;
+  /* Sin esto, el scroll con rueda/dedo se "escapa" hacia la página en
+     vez de moverse aquí: un contenedor con overflow anidado dentro de
+     un ancestro con transform-style:preserve-3d (el flip) no recibe
+     bien los eventos de wheel/touch a menos que tenga su propia capa
+     de composición. El teclado (flechas) no se ve afectado porque usa
+     scroll programático, por eso "con flechas sí, con scroll no". */
+  transform: translateZ(0);
 }
 
 .chat-entrada {
@@ -377,6 +384,36 @@ button.pill:active { transform: scale(.95); }
   font-size: 13px;
   line-height: 1.5;
   overflow-y: auto;
+  /* Ver el comentario de .chat-mensajes: sin esto el scroll con
+     rueda/dedo se escapa hacia la página en vez de moverse aquí. */
+  transform: translateZ(0);
+}
+
+/* Ficha 2 crece con su contenido: la tabla de convergencias no siempre
+   cabe en la altura pareja de las demás fichas. En vez de recortarla
+   con scroll interno, la tarjeta se alarga lo que haga falta (con el
+   mismo piso de 340px cuando está vacía/procesando). Las otras cuatro
+   fichas conservan la altura pareja de siempre. */
+.bloque-ficha:has(#ficha2) {
+  flex: none;
+}
+.bloque-ficha:has(#ficha2) .flip-ficha {
+  flex: none;
+  height: auto;
+  min-height: 340px;
+}
+.bloque-ficha:has(#ficha2) .flip-inner {
+  position: relative;
+  inset: auto;
+  height: auto;
+}
+.bloque-ficha:has(#ficha2) .flip-frente {
+  position: relative;
+  inset: auto;
+}
+.bloque-ficha:has(#ficha2) .flip-frente .tarjeta-ficha {
+  height: auto;
+  overflow-y: visible;
 }
 
 .ficha-head {
